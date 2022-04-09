@@ -1,4 +1,5 @@
-﻿using BusinesLogic;
+﻿using APILayer.Models;
+using BusinesLogic;
 using BusinesLogic.Interface;
 using DomainLayer;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using RepositoryLayer;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Net.Http;
 
 namespace APILayer.Controllers
@@ -19,7 +21,6 @@ namespace APILayer.Controllers
         ProductDbContext _Context;
         IProductCatalog _Catalog;
         
-        
         public ProductCatalogController(ProductDbContext Context,ILogger<ProductCatalogController>logger)
         {
             _logger = logger;
@@ -27,19 +28,20 @@ namespace APILayer.Controllers
             _Catalog = new ProductCatalog(_Context);
         }
         [HttpGet]
-        public IEnumerable GetAll()
+        public Response<IEnumerable<Product>> GetAll()
         {
-
+            Response<IEnumerable<Product>> response = new Response<IEnumerable<Product>>();
             try
             {
                 var products = _Catalog.GetAll();
-
-                return products;
+                response.AddResponse(true, 0, products, "GetAll");
+                return response;
             }
             catch(Exception ex)
             {
-               _logger.LogError("Error message");
-                return ex.ToString();
+                response.AddResponse(false, 0, null, "NotGet");
+                _logger.LogError("Error message");
+                return response;
 
                 
             }
@@ -76,7 +78,7 @@ namespace APILayer.Controllers
             }
             
         }
-        [HttpDelete]
+        [HttpDelete("{Id}")]
         public HttpResponseMessage Delete(int Id)
         {
             try
@@ -88,7 +90,7 @@ namespace APILayer.Controllers
                 return new HttpResponseMessage(System.Net.HttpStatusCode.OK);
             }catch(Exception ex)
             {
-                _logger.LogError("Error In Put", ex);
+                _logger.LogError("Error In Delete", ex);
                 return new HttpResponseMessage(System.Net.HttpStatusCode.BadRequest);
             }
             

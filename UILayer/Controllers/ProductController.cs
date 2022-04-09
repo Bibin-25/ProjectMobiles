@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Office2010.Excel;
+﻿using APILayer.Models;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using DomainLayer;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -15,8 +16,8 @@ namespace UILayer.Controllers
         }
         public IActionResult Index()
         {
-            IEnumerable<Product> products = PoductApi.GetAll();
-            return View(products);
+            Response<IEnumerable<Product>> products = PoductApi.GetAll();
+            return View(products.Data);
         }
         public IActionResult Details(int id)
         {
@@ -35,7 +36,7 @@ namespace UILayer.Controllers
             Data.name = product.name;   
             Data.price = product.price;
             Data.description = product.description; 
-            bool result=PoductApi.Create(Data);
+            bool result=PoductApi.Create(product);
             if (result) 
             {
                 return RedirectToAction("Index");
