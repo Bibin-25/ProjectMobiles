@@ -17,7 +17,7 @@ namespace APILayer.Controllers
     [ApiController]
     public class ProductCatalogController : ControllerBase
     {
-        private readonly ILogger<ProductCatalogController> _logger;
+        private readonly ILogger<ProductCatalogController> _logger; 
         ProductDbContext _Context;
         IProductCatalog _Catalog;
         

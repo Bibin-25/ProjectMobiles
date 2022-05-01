@@ -13,7 +13,7 @@ namespace UILayer.Datas.Apiservices
     {
         public static Response<IEnumerable<Product>> GetAll()
         {
-            Response < IEnumerable < Product >> products = new Response<IEnumerable<Product>>();
+            Response <IEnumerable < Product >> products = new Response<IEnumerable<Product>>();
             
             using(HttpClient httpClient = new HttpClient())
             {
