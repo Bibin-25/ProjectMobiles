@@ -1,4 +1,16 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$('.btn').click(function () {
+    $(this).toggleClass("click");
+    $('.sidebar').toggleClass("show");
+});
 
-// Write your JavaScript code.
+
+$('.sidebar ul li a').click(function () {
+    var id = $(this).attr('id');
+    $('nav ul li ul.item-show-' + id).toggleClass("show");
+    $('nav ul li #' + id + ' span').toggleClass("rotate");
+
+});
+
+$('nav ul li').click(function () {
+    $(this).addClass("active").siblings().removeClass("active");
+});
